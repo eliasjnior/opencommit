@@ -48788,6 +48788,14 @@ var configValidators = {
     );
     return value;
   },
+  ["OCO_DESCRIPTION_INPUT" /* OCO_DESCRIPTION_INPUT */](value) {
+    validateConfig(
+      "OCO_DESCRIPTION_INPUT" /* OCO_DESCRIPTION_INPUT */,
+      typeof value === "string",
+      "Must be a string"
+    );
+    return value;
+  },
   ["OCO_TOKENS_MAX_INPUT" /* OCO_TOKENS_MAX_INPUT */](value) {
     value = parseInt(value);
     validateConfig(
@@ -48954,6 +48962,7 @@ var getEnvConfig = (envPath) => {
       process.env.OCO_TOKENS_MAX_OUTPUT
     ),
     OCO_DESCRIPTION: parseConfigVarValue(process.env.OCO_DESCRIPTION),
+    OCO_DESCRIPTION_INPUT: process.env.OCO_DESCRIPTION_INPUT,
     OCO_EMOJI: parseConfigVarValue(process.env.OCO_EMOJI),
     OCO_LANGUAGE: process.env.OCO_LANGUAGE,
     OCO_MESSAGE_TEMPLATE_PLACEHOLDER: process.env.OCO_MESSAGE_TEMPLATE_PLACEHOLDER,
@@ -63493,7 +63502,7 @@ var INIT_MAIN_PROMPT = (language, prompts) => ({
   role: "system",
   content: `${IDENTITY} Your mission is to create clean and comprehensive commit messages in the given @commitlint convention and explain WHAT were the changes ${config2.OCO_WHY ? "and WHY the changes were done" : ""}. I'll send you an output of 'git diff --staged' command, and you convert it into a commit message.
 ${config2.OCO_EMOJI ? "Use GitMoji convention to preface the commit." : "Do not preface the commit with anything."}
-${config2.OCO_DESCRIPTION ? `Add a short description of WHY the changes are done after the commit message. Don't start it with "This commit", just describe the changes.` : "Don't add any descriptions to the commit, only commit message."}
+${config2.OCO_DESCRIPTION ? config2.OCO_DESCRIPTION_INPUT ?? `Add a short description of WHY the changes are done after the commit message. Don't start it with "This commit", just describe the changes.` : "Don't add any descriptions to the commit, only commit message."}
 Use the present tense. Use ${language} to answer.
 ${config2.OCO_ONE_LINE_COMMIT ? "Craft a concise commit message that encapsulates all changes made, with an emphasis on the primary updates. If the modifications share a common theme or scope, mention it succinctly; otherwise, leave the scope out to maintain focus. The goal is to provide a clear and unified overview of the changes in a one single message, without diverging into a list of commit per file change." : ""}
     

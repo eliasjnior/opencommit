@@ -15,6 +15,7 @@ export enum CONFIG_KEYS {
   OCO_TOKENS_MAX_INPUT = 'OCO_TOKENS_MAX_INPUT',
   OCO_TOKENS_MAX_OUTPUT = 'OCO_TOKENS_MAX_OUTPUT',
   OCO_DESCRIPTION = 'OCO_DESCRIPTION',
+  OCO_DESCRIPTION_INPUT = 'OCO_DESCRIPTION_INPUT',
   OCO_EMOJI = 'OCO_EMOJI',
   OCO_MODEL = 'OCO_MODEL',
   OCO_LANGUAGE = 'OCO_LANGUAGE',
@@ -149,6 +150,16 @@ export const configValidators = {
       CONFIG_KEYS.OCO_DESCRIPTION,
       typeof value === 'boolean',
       'Must be boolean: true or false'
+    );
+
+    return value;
+  },
+
+  [CONFIG_KEYS.OCO_DESCRIPTION_INPUT](value: any) {
+    validateConfig(
+      CONFIG_KEYS.OCO_DESCRIPTION_INPUT,
+      typeof value === 'string',
+      'Must be a string'
     );
 
     return value;
@@ -316,6 +327,7 @@ export type ConfigType = {
   [CONFIG_KEYS.OCO_TOKENS_MAX_OUTPUT]: number;
   [CONFIG_KEYS.OCO_API_URL]?: string;
   [CONFIG_KEYS.OCO_DESCRIPTION]: boolean;
+  [CONFIG_KEYS.OCO_DESCRIPTION_INPUT]: string;
   [CONFIG_KEYS.OCO_EMOJI]: boolean;
   [CONFIG_KEYS.OCO_WHY]: boolean;
   [CONFIG_KEYS.OCO_MODEL]: string;
@@ -403,6 +415,7 @@ const getEnvConfig = (envPath: string) => {
     ),
 
     OCO_DESCRIPTION: parseConfigVarValue(process.env.OCO_DESCRIPTION),
+    OCO_DESCRIPTION_INPUT: process.env.OCO_DESCRIPTION_INPUT,
     OCO_EMOJI: parseConfigVarValue(process.env.OCO_EMOJI),
     OCO_LANGUAGE: process.env.OCO_LANGUAGE,
     OCO_MESSAGE_TEMPLATE_PLACEHOLDER:

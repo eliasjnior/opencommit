@@ -268,7 +268,8 @@ ${
 }
 ${
   config.OCO_DESCRIPTION
-    ? 'Add a short description of WHY the changes are done after the commit message. Don\'t start it with "This commit", just describe the changes.'
+    ? config.OCO_DESCRIPTION_INPUT ??
+      'Add a short description of WHY the changes are done after the commit message. Don\'t start it with "This commit", just describe the changes.'
     : "Don't add any descriptions to the commit, only commit message."
 }
 Use the present tense. Use ${language} to answer.
