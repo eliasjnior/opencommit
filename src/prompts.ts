@@ -1,6 +1,6 @@
 import { note } from '@clack/prompts';
 import { OpenAI } from 'openai';
-import { getConfig } from './commands/config';
+import { CONFIG_KEYS, getConfig } from './commands/config';
 import { i18n, I18nLocals } from './i18n';
 import { configureCommitlintIntegration } from './modules/commitlint/config';
 import { commitlintPrompts } from './modules/commitlint/prompts';
@@ -92,7 +92,7 @@ const FULL_GITMOJI_SPEC = `${GITMOJI_HELP}
 🦺, Add or update code related to validation.`;
 
 const CONVENTIONAL_COMMIT_KEYWORDS =
-  'Do not preface the commit with anything, except for the conventional commit keywords: fix, feat, build, chore, ci, docs, style, refactor, perf, test.';
+  'Do not preface the commit with anything, except for the conventional commit keywords: fix, feat, build, chore, ci, docs, style, refactor, perf, test, maybe including the scope, eg: keyword(scope), and do not add the file extension in the conventional commit keywords scope';
 
 const getCommitConvention = (fullGitMojiSpec: boolean) =>
   config.OCO_EMOJI
@@ -103,7 +103,8 @@ const getCommitConvention = (fullGitMojiSpec: boolean) =>
 
 const getDescriptionInstruction = () =>
   config.OCO_DESCRIPTION
-    ? 'Add a short description of WHY the changes are done after the commit message. Don\'t start it with "This commit", just describe the changes.'
+    ? config[CONFIG_KEYS.OCO_DESCRIPTION_INPUT] ??
+      'Add a short description of WHY the changes are done after the commit message. Don\'t start it with "This commit", just describe the changes.'
     : "Don't add any descriptions to the commit, only commit message.";
 
 const getOneLineCommitInstruction = () =>
